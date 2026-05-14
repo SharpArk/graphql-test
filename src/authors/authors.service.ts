@@ -7,23 +7,50 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class AuthorsService {
   constructor(private prismaService: PrismaService) {}
 
-  create(createAuthorInput: CreateAuthorInput) {
-    return 'This action adds a new author';
+  async create(createAuthorInput: CreateAuthorInput) {
+    const author = await this.prismaService.author.create({
+      data: createAuthorInput,
+      include: {
+        posts: true,
+      },
+    });
+    return author;
   }
 
-  findAll() {
-    return `This action returns all authors`;
+  async findAll() {
+    const authors = await this.prismaService.author.findMany({
+      include: {
+        posts: true,
+      },
+    });
+    return authors;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} author`;
+  async findOne(id: number) {
+    const author = await this.prismaService.author.findUnique({
+      where: {
+        id,
+      },
+    });
+    return author;
   }
 
-  update(id: number, updateAuthorInput: UpdateAuthorInput) {
-    return `This action updates a #${id} author`;
+  async update(updateAuthorInput: UpdateAuthorInput) {
+    const newAuthor = await this.prismaService.author.update({
+      data: {
+        name: updateAuthorInput.name,
+      },
+      where: {
+        id: updateAuthorInput.id,
+      },
+    });
+    return newAuthor;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} author`;
+  async remove(id: number) {
+    const authorDelete = await this.prismaService.author.delete({
+      where: { id: id },
+    });
+    return authorDelete;
   }
 }
