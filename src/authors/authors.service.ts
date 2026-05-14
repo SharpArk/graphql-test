@@ -31,6 +31,9 @@ export class AuthorsService {
       where: {
         id,
       },
+      include: {
+        posts: true,
+      },
     });
     return author;
   }
@@ -42,6 +45,9 @@ export class AuthorsService {
       },
       where: {
         id: updateAuthorInput.id,
+      },
+      include: {
+        posts: true,
       },
     });
     return newAuthor;

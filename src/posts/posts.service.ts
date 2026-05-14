@@ -21,6 +21,7 @@ export class PostsService {
       where: {
         id,
       },
+      include: { author: true },
     });
   }
 
@@ -35,11 +36,17 @@ export class PostsService {
   }
 
   async addAuthorToPost(addAuthorInput: AddAutorInput) {
-    const addAuthor = await this.prisma.post.update({where:{
-      id: addAuthorInput.idPost
-    },data:{
-      authorId: addAuthorInput.idAutor
-    }})
+    const addAuthor = await this.prisma.post.update({
+      where: {
+        id: addAuthorInput.idPost,
+      },
+      data: {
+        authorId: addAuthorInput.idAutor,
+      },
+      include: {
+        author: true,
+      },
+    });
     return addAuthor;
   }
 }
