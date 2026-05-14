@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Post } from './post.entity';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreatePostInput } from './dto/create-post.input';
+import { AddAutorInput } from './dto/add-autor.input';
 
 @Injectable()
 export class PostsService {
@@ -31,5 +32,14 @@ export class PostsService {
       },
     });
     return data;
+  }
+
+  async addAuthorToPost(addAuthorInput: AddAutorInput) {
+    const addAuthor = await this.prisma.post.update({where:{
+      id: addAuthorInput.idPost
+    },data:{
+      authorId: addAuthorInput.idAutor
+    }})
+    return addAuthor;
   }
 }

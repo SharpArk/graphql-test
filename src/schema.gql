@@ -13,6 +13,7 @@ type Post {
   title: String!
   content: String
   author: Author
+  authorId: Int
 }
 
 type Query {
@@ -24,6 +25,7 @@ type Query {
 
 type Mutation {
   createPost(postInput: CreatePostInput!): Post!
+  addAuthorToPost(addAuthorInput: AddAutorInput!): Post!
   createAuthor(createAuthorInput: CreateAuthorInput!): Author!
   updateAuthor(updateAuthorInput: UpdateAuthorInput!): Author!
   removeAuthor(id: Int!): Author!
@@ -34,13 +36,17 @@ input CreatePostInput {
   content: String
 }
 
+input AddAutorInput {
+  idAutor: Int!
+  idPost: Int!
+}
+
 input CreateAuthorInput {
   """Example field (placeholder)"""
-  exampleField: Int!
+  name: String!
 }
 
 input UpdateAuthorInput {
-  """Example field (placeholder)"""
-  exampleField: Int
+  name: String!
   id: Int!
 }
